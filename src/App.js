@@ -10,6 +10,8 @@ import { UserList } from './users';
 import Dashboard from './Dashboard';
 import authProvider from './authProvider';
 
+import { API_URL } from './Config';
+
 const token = localStorage.getItem('token');
 const httpClient = (url, options = {}) => {
     options.user = {
@@ -21,7 +23,7 @@ const httpClient = (url, options = {}) => {
 
 const App = () => (
     <Admin
-        dataProvider={simpleRestProvider('http://dev.smmtool.ru:4444/api', httpClient)}
+        dataProvider={simpleRestProvider(API_URL, httpClient)}
         authProvider={authProvider}
         dashboard={Dashboard}
     >
