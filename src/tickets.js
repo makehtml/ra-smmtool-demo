@@ -39,7 +39,7 @@ export const TicketList = props => (
     <List {...props} filters={<TicketFilter />}>
         <Datagrid>
             <TextField source="id" />
-            <ReferenceField label="User" source="userId" reference="users">
+            <ReferenceField label="User" source="uid" reference="users">
                 <TextField source="name" />
             </ReferenceField>
             <TextField source="title" />
