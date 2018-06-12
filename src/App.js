@@ -2,7 +2,7 @@ import React from 'react';
 import PostIcon from '@material-ui/icons/Book';
 import UserIcon from '@material-ui/icons/Group';
 import { Admin, Resource, fetchUtils } from 'react-admin';
-import jsonServerProvider from 'ra-data-json-server';
+// import jsonServerProvider from 'ra-data-json-server';
 import simpleRestProvider from 'ra-data-simple-rest';
 
 import { TicketList, TicketEdit, TicketCreate, TicketShow } from './tickets';
@@ -21,7 +21,7 @@ const httpClient = (url, options = {}) => {
 
 const App = () => (
     <Admin
-        dataProvider={jsonServerProvider('http://dev.smmtool.ru:4444/api', httpClient)}
+        dataProvider={simpleRestProvider('http://dev.smmtool.ru:4444/api', httpClient)}
         authProvider={authProvider}
         dashboard={Dashboard}
     >
