@@ -1,5 +1,5 @@
-import { AUTH_LOGIN, AUTH_LOGOUT, AUTH_ERROR, AUTH_GET_PERMISSIONS, AUTH_CHECK } from 'react-admin';
 import decodeJwt from 'jwt-decode';
+import { AUTH_LOGIN, AUTH_LOGOUT, AUTH_ERROR, AUTH_GET_PERMISSIONS, AUTH_CHECK } from 'react-admin';
 import { API_URL } from './Config';
 
 export default (type, params) => {
@@ -18,25 +18,22 @@ export default (type, params) => {
                 return response.json();
             })
             .then(({ token }) => {
-                const decodedToken = decodeJwt(token);
                 localStorage.setItem('token', token);
-                localStorage.setItem('roles', decodedToken.user_claims.roles);
             });
     }
     if (type === AUTH_LOGOUT) {
         localStorage.removeItem('token');
-        localStorage.removeItem('roles');
         return Promise.resolve();
     }
     if (type === AUTH_ERROR) {
-        // ...
+        return Promise.resolve();
     }
     if (type === AUTH_CHECK) {
         return localStorage.getItem('token') ? Promise.resolve() : Promise.reject();
     }
     if (type === AUTH_GET_PERMISSIONS) {
-        const role = localStorage.getItem('roles');
-        return role ? Promise.resolve(role) : Promise.reject();
+        const roles = decodeJwt(localStorage.getItem('token').user_claims.roles);
+        return roles ? Promise.resolve(roles) : Promise.reject();
     }
-    return Promise.reject('Unknown method');
+    return Promise.reject('Unkown method');
 };

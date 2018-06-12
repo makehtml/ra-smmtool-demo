@@ -26,7 +26,7 @@ const TicketFilter = props => (
         <TextInput label="Search" source="q" alwaysOn />
         <ReferenceInput
             label="User"
-            source="userId"
+            source="uid"
             reference="users"
             allowEmpty
         >
@@ -82,9 +82,8 @@ export const TicketShow = props => (
     <Show {...props}>
         <SimpleShowLayout>
             <TextField source="title" />
-            <TextField source="teaser" />
-            <RichTextField source="body" />
-            <DateField label="Publication date" source="created_at" />
+            <RichTextField source="text" />
+            <DateField label="Publication date" source="date_created" />
         </SimpleShowLayout>
     </Show>
 );
