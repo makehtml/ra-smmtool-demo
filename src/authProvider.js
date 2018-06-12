@@ -4,7 +4,7 @@ import decodeJwt from 'jwt-decode';
 export default (type, params) => {
     if (type === AUTH_LOGIN) {
         const { username, password } = params;
-        const request = new Request('http://dev.smmtool.ru:4444/login', {
+        const request = new Request('http://dev.smmtool.ru:4444/api/login', {
             method: 'POST',
             body: JSON.stringify({ username, password }),
             headers: new Headers({ 'Content-Type': 'application/json' }),
@@ -19,12 +19,12 @@ export default (type, params) => {
             .then(({ token }) => {
                 const decodedToken = decodeJwt(token);
                 localStorage.setItem('token', token);
-                localStorage.setItem('role', decodedToken.role);
+                localStorage.setItem('roles', decodedToken.user_claims.roles);
             });
     }
     if (type === AUTH_LOGOUT) {
         localStorage.removeItem('token');
-        localStorage.removeItem('role');
+        localStorage.removeItem('roles');
         return Promise.resolve();
     }
     if (type === AUTH_ERROR) {
@@ -34,8 +34,8 @@ export default (type, params) => {
         return localStorage.getItem('token') ? Promise.resolve() : Promise.reject();
     }
     if (type === AUTH_GET_PERMISSIONS) {
-        const role = localStorage.getItem('role');
+        const role = localStorage.getItem('roles');
         return role ? Promise.resolve(role) : Promise.reject();
     }
-    return Promise.reject('Unkown method');
+    return Promise.reject('Unknown method');
 };
